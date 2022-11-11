@@ -3,6 +3,7 @@ package com.example.task4.dbo;
 import lombok.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Setter
 @Getter
@@ -10,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StudentDbo {
-    private Integer id;
+    private UUID id;
     private String firstname;
     private String lastname;
     private Integer age;
