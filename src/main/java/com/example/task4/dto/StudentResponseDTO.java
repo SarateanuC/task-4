@@ -3,13 +3,15 @@ package com.example.task4.dto;
 import lombok.*;
 
 import java.util.List;
+import java.util.UUID;
+
 @Setter
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class StudentResponseDTO {
-    private Integer id;
+    private UUID id;
     private String firstname;
     private String lastname;
     private Integer age;
