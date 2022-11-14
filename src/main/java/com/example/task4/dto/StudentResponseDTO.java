@@ -2,7 +2,6 @@ package com.example.task4.dto;
 
 import lombok.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @Setter
@@ -11,10 +10,9 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StudentResponseDTO {
-    private UUID id;
+    private UUID student_id;
     private String firstname;
     private String lastname;
     private Integer age;
     private boolean eligibleForErasmusScholarship;
-    private List<String> universities;
 }

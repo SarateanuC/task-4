@@ -9,10 +9,11 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class StudentDbo {
+public class StudentUniversityDbo {
     private UUID student_id;
     private String firstname;
     private String lastname;
+    private String gender;
     private Integer age;
-    private boolean eligibleForErasmusScholarship;
+    private String university;
 }

@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20221114_create-student-university.yml
+      author: carolina.sarateanu
+      failOnError: true
+      changes:
+        - sql:
+            sql: CREATE TABLE student_university (
+              student_id UUID NOT NULL,
+              university VARCHAR(50) NOT NULL
+              );

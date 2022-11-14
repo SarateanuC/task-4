@@ -1,9 +1,8 @@
 package com.example.task4;
 
-import com.example.task4.dbo.RegistrationDbo;
 import com.example.task4.dbo.StudentDbo;
+import com.example.task4.dbo.StudentUniversityDbo;
 import com.example.task4.dto.StudentResponseDTO;
-import com.example.task4.mapper.RegistrationMapper;
 import com.example.task4.mapper.StudentMapper;
 import com.example.task4.service.StudentServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
-import static java.time.LocalDate.of;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.any;
@@ -24,8 +22,6 @@ import static org.mockito.Mockito.when;
 public class StudentServiceImplMockTests {
     @Mock
     private StudentMapper studentMapper;
-    @Mock
-    private RegistrationMapper registrationMapper;
     @InjectMocks
     private StudentServiceImpl studentServiceImpl;
 
@@ -41,23 +37,15 @@ public class StudentServiceImplMockTests {
                 .firstname("firstname1")
                 .lastname("lastname1")
                 .build();
-        List<RegistrationDbo> registrationDbos = List.of(RegistrationDbo.builder()
-                        .registrationDate(of(2022, 12, 3))
-                        .studentDbo(studentDbo1)
-                        .build(),
-                RegistrationDbo.builder()
-                        .studentDbo(studentDbo2)
-                        .registrationDate(of(2022, 10, 12))
-                        .build());
 
-        when(registrationMapper.findByDate(any(), any())).thenReturn(registrationDbos);
+        when(studentMapper.findByDate(any(), any())).thenReturn(List.of(studentDbo1, studentDbo2));
         List<StudentResponseDTO> studentResponseDTOS = studentServiceImpl.readyForErasmus(10);
         assertThat(studentResponseDTOS.size()).isEqualTo(2);
     }
 
     @Test
     public void readyForErasmusEmptyListTest() {
-        when(registrationMapper.findByDate(any(), any())).thenReturn(emptyList());
+        when(studentMapper.findByDate(any(), any())).thenReturn(emptyList());
         assertThat(studentServiceImpl.readyForErasmus(10)).isEmpty();
     }
 
@@ -82,32 +70,38 @@ public class StudentServiceImplMockTests {
 
     @Test
     public void findByUniversityEmptyListTest() {
-        when(registrationMapper.findByDate(any(), any())).thenReturn(emptyList());
+        when(studentMapper.findByDate(any(), any())).thenReturn(emptyList());
         assertThat(studentServiceImpl.findStudentsToVisitUniversity("UTM")).isEmpty();
     }
 
     @Test
     public void groupByUniversitySuccessTest() {
-        StudentDbo studentDbo1 = StudentDbo.builder()
+        StudentUniversityDbo studentDbo1UTM = StudentUniversityDbo.builder()
                 .age(19)
                 .firstname("firstname1")
                 .lastname("lastname1")
-                .universities(List.of("USM"))
+                .university("UTM")
                 .build();
-        StudentDbo studentDbo2 = StudentDbo.builder()
-                .age(21)
+        StudentUniversityDbo studentDbo1USM = StudentUniversityDbo.builder()
+                .age(19)
                 .firstname("firstname1")
                 .lastname("lastname1")
-                .universities(List.of("UTM"))
+                .university("USM")
                 .build();
-        StudentDbo studentDbo3 = StudentDbo.builder()
+        StudentUniversityDbo studentDbo2 = StudentUniversityDbo.builder()
                 .age(21)
-                .firstname("firstname1")
-                .lastname("lastname1")
-                .universities(List.of("USMF"))
+                .firstname("firstname2")
+                .lastname("lastname2")
+                .university("USMF")
+                .build();
+        StudentUniversityDbo studentDbo3 = StudentUniversityDbo.builder()
+                .age(19)
+                .firstname("firstname3")
+                .lastname("lastname3")
+                .university("UTM")
                 .build();
 
-        when(studentMapper.findAll()).thenReturn(List.of(studentDbo2, studentDbo1, studentDbo3));
+        when(studentMapper.groupByUniversity()).thenReturn(List.of(studentDbo2, studentDbo1USM,studentDbo1UTM, studentDbo3));
 
         assertThat(studentServiceImpl.groupByUniversity()).isNotNull();
         assertThat(studentServiceImpl.groupByUniversity().getGroupByUniversity().size()).isEqualTo(3);
@@ -117,9 +111,9 @@ public class StudentServiceImplMockTests {
 
     @Test
     public void groupByUniversityEmptyListTest() {
-        when(studentMapper.findAll()).thenReturn(emptyList());
+        when(studentMapper.groupByUniversity()).thenReturn(emptyList());
         assertThat(studentServiceImpl.groupByUniversity().getGroupByUniversity().isEmpty()).isTrue();
     }
 
-    }
+}
 

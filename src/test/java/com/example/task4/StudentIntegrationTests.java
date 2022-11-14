@@ -15,8 +15,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
@@ -27,7 +25,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
         @Sql(scripts = {"/sql/20221110_create-student.sql",
                 "/sql/20221110_create-registration.sql",
                 "/sql/20221110_insert-student.sql",
-                "/sql/20221110_insert-registration.sql"}))
+                "/sql/20221110_insert-registration.sql",
+                "/sql/20221114_create-student-university.sql",
+                "/sql/20221114_insert-student-university.sql"}))
 class StudentIntegrationTests {
     @Autowired
     private ObjectMapper objectMapper;
@@ -39,35 +39,35 @@ class StudentIntegrationTests {
     void readyForErasmusTest() {
         MvcResult mvcResult = mockMvc.perform(get("/api/student/by-date")
                         .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(10)))
+                        .param("time", "100"))
                 .andReturn();
         String contentAsString = mvcResult.getResponse().getContentAsString();
-        List<StudentResponseDTO> studentResponseDTOS = List.of(objectMapper.readValue(contentAsString, StudentResponseDTO.class));
-        assertThat(studentResponseDTOS.size()).isEqualTo(7);
+        StudentResponseDTO[] studentResponseDTOS = objectMapper.readValue(contentAsString, StudentResponseDTO[].class);
+        assertThat(studentResponseDTOS.length).isEqualTo(6);
     }
 
     @Test
     @SneakyThrows
     void findByUniversitySuccessTest() {
-        MvcResult mvcResult = mockMvc.perform(get("/api/student/by-univeristy")
+        MvcResult mvcResult = mockMvc.perform(get("/api/student/by-university")
                         .contentType("application/json")
-                        .content(objectMapper.writeValueAsString("USFM")))
+                        .param("university", "UTM"))
                 .andReturn();
         String contentAsString = mvcResult.getResponse().getContentAsString();
-        List<StudentResponseDTO> studentResponseDTOS = List.of(objectMapper.readValue(contentAsString, StudentResponseDTO.class));
-        assertThat(studentResponseDTOS.size()).isEqualTo(10);
+        StudentResponseDTO[] studentResponseDTOS = objectMapper.readValue(contentAsString, StudentResponseDTO[].class);
+        assertThat(studentResponseDTOS.length).isEqualTo(10);
     }
 
     @Test
     @SneakyThrows
     void findByUniversityEmptyListTest() {
-        MvcResult mvcResult = mockMvc.perform(get("/api/student/by-univeristy")
+        MvcResult mvcResult = mockMvc.perform(get("/api/student/by-university")
                         .contentType("application/json")
-                        .content(objectMapper.writeValueAsString("ULIM")))
+                        .param("university", "ULIM"))
                 .andReturn();
         String contentAsString = mvcResult.getResponse().getContentAsString();
-        List<StudentResponseDTO> studentResponseDTOS = List.of(objectMapper.readValue(contentAsString, StudentResponseDTO.class));
-        assertThat(studentResponseDTOS.size()).isEqualTo(0);
+        StudentResponseDTO[] studentResponseDTOS = objectMapper.readValue(contentAsString, StudentResponseDTO[].class);
+        assertThat(studentResponseDTOS).isEmpty();
     }
 
     @Test
@@ -75,9 +75,10 @@ class StudentIntegrationTests {
     void groupByUniversityTest() {
         MvcResult mvcResult = mockMvc.perform(get("/api/student/group-by-university")
                         .contentType("application/json"))
-                         .andReturn();
+                .andReturn();
         String contentAsString = mvcResult.getResponse().getContentAsString();
         StudentsByUniversityDTO studentsByUniversityDTO = objectMapper.readValue(contentAsString, StudentsByUniversityDTO.class);
-        assertThat(studentsByUniversityDTO.getGroupByUniversity().size()).isEqualTo(4);
+        assertThat(studentsByUniversityDTO.getGroupByUniversity().size()).isEqualTo(3);
+        assertThat(studentsByUniversityDTO.getGroupByUniversity().keySet()).contains("USM", "USMF", "UTM");
     }
 }

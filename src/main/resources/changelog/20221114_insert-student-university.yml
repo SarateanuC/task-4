@@ -1,0 +1,99 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20221114_insert-student_university.yml
+      author: carolina.sarateanu
+      failOnError: true
+      changes:
+        - sql:
+            sql: INSERT INTO student_university(student_id, university)
+              VALUES('d89572bc-60db-11ed-9b6a-0242ac120001', 'USMF')
+        - sql:
+             sql: INSERT INTO student_university(student_id, university)
+              VALUES('d89572bc-60db-11ed-9b6a-0242ac120001', 'UTM')
+        - sql:
+            sql: INSERT INTO student_university(student_id, university)
+              VALUES('d89572bc-60db-11ed-9b6a-0242ac120001', 'USM')
+        - sql:
+            sql: INSERT INTO student_university(student_id, university)
+              VALUES('d89575a0-60db-11ed-9b6a-0242ac120002', 'USMF')
+        - sql:
+            sql: INSERT INTO student_university(student_id, university)
+              VALUES('d89575a0-60db-11ed-9b6a-0242ac120002', 'UTM')
+        - sql:
+            sql: INSERT INTO student_university(student_id, university)
+              VALUES('d89575a0-60db-11ed-9b6a-0242ac120002', 'USM')
+        - sql:
+            sql: INSERT INTO student_university(student_id, university)
+              VALUES('d89575a0-60db-11ed-9b6a-0242ac120003', 'USMF')
+        - sql:
+            sql: INSERT INTO student_university(student_id, university)
+              VALUES('d89575a0-60db-11ed-9b6a-0242ac120003', 'UTM')
+        - sql:
+            sql: INSERT INTO student_university(student_id, university)
+              VALUES('d89575a0-60db-11ed-9b6a-0242ac120004', 'USM')
+        - sql:
+            sql: INSERT INTO student_university(student_id, university)
+              VALUES('d89575a0-60db-11ed-9b6a-0242ac120004', 'USMF')
+        - sql:
+            sql: INSERT INTO student_university(student_id, university)
+              VALUES('d89575a0-60db-11ed-9b6a-0242ac120005', 'UTM')
+        - sql:
+            sql: INSERT INTO student_university(student_id, university)
+              VALUES('d89575a0-60db-11ed-9b6a-0242ac120005', 'USM')
+        - sql:
+            sql: INSERT INTO student_university(student_id, university)
+              VALUES('d89575a0-60db-11ed-9b6a-0242ac120006', 'USMF')
+        - sql:
+            sql: INSERT INTO student_university(student_id, university)
+              VALUES('d89575a0-60db-11ed-9b6a-0242ac120006', 'UTM')
+        - sql:
+            sql: INSERT INTO student_university(student_id, university)
+              VALUES('d89575a0-60db-11ed-9b6a-0242ac120007', 'UTM')
+        - sql:
+            sql: INSERT INTO student_university(student_id, university)
+              VALUES('d89575a0-60db-11ed-9b6a-0242ac120007', 'USM')
+        - sql:
+            sql: INSERT INTO student_university(student_id, university)
+              VALUES('d89575a0-60db-11ed-9b6a-0242ac120008', 'USM')
+        - sql:
+            sql: INSERT INTO student_university(student_id,university)
+              VALUES('d89575a0-60db-11ed-9b6a-0242ac120009', 'USMF')
+        - sql:
+            sql: INSERT INTO student_university(student_id,university)
+              VALUES('d89575a0-60db-11ed-9b6a-0242ac120010','UTM')
+        - sql:
+            sql: INSERT INTO student_university(student_id, university)
+              VALUES('d89575a0-60db-11ed-9b6a-0242ac120011', 'USM')
+        - sql:
+            sql: INSERT INTO student_university(student_id,university)
+              VALUES('d89575a0-60db-11ed-9b6a-0242ac120011', 'USMF')
+        - sql:
+            sql: INSERT INTO student_university(student_id,university)
+              VALUES('d89575a0-60db-11ed-9b6a-0242ac120011','UTM')
+        - sql:
+            sql: INSERT INTO student_university(student_id, university)
+              VALUES('d89575a0-60db-11ed-9b6a-0242ac120012', 'USM')
+        - sql:
+            sql: INSERT INTO student_university(student_id,university)
+              VALUES('d89575a0-60db-11ed-9b6a-0242ac120012', 'USMF')
+        - sql:
+            sql: INSERT INTO student_university(student_id,university)
+              VALUES('d89575a0-60db-11ed-9b6a-0242ac120012','UTM')
+        - sql:
+            sql: INSERT INTO student_university(student_id,university)
+              VALUES('d89575a0-60db-11ed-9b6a-0242ac120013', 'USMF')
+        - sql:
+            sql: INSERT INTO student_university(student_id, university)
+              VALUES('d89575a0-60db-11ed-9b6a-0242ac120014', 'USM')
+        - sql:
+            sql: INSERT INTO student_university(student_id,university)
+              VALUES('d89575a0-60db-11ed-9b6a-0242ac120014', 'USMF')
+        - sql:
+            sql: INSERT INTO student_university(student_id,university)
+              VALUES('d89575a0-60db-11ed-9b6a-0242ac120014','UTM')
+        - sql:
+            sql: INSERT INTO student_university(student_id,university)
+              VALUES('d89575a0-60db-11ed-9b6a-0242ac120015','USM')
+        - sql:
+            sql: INSERT INTO student_university(student_id,university)
+              VALUES('d89575a0-60db-11ed-9b6a-0242ac120016','USM');

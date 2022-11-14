@@ -11,3 +11,9 @@ databaseChangeLog:
   - include:
       - file: 20221110_insert-registration.yml
       - relativeToChangelogFile: true
+  - include:
+      - file: 20221114_create-student-university.yml
+      - relativeToChangelogFile: true
+  - include:
+      - file: 20221114_insert-student-university.yml
+      - relativeToChangelogFile: true

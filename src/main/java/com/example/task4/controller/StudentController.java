@@ -18,13 +18,13 @@ public class StudentController {
 
     @GetMapping("/by-date")
     @ResponseStatus(OK)
-    public List<StudentResponseDTO> readyForErasmus(@RequestParam Integer timeRange) {
+    public List<StudentResponseDTO> readyForErasmus(@RequestParam("time") Integer timeRange) {
         return studentServiceImpl.readyForErasmus(timeRange);
     }
 
     @GetMapping("/by-university")
     @ResponseStatus(OK)
-    public List<StudentResponseDTO> findAllStudentToVisitUniversity(@RequestParam String university) {
+    public List<StudentResponseDTO> findAllStudentToVisitUniversity(@RequestParam ("university") String university) {
         return studentServiceImpl.findStudentsToVisitUniversity(university);
     }
 

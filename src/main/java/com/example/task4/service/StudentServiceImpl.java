@@ -1,32 +1,33 @@
 package com.example.task4.service;
 
-import com.example.task4.dbo.RegistrationDbo;
 import com.example.task4.dbo.StudentDbo;
+import com.example.task4.dbo.StudentUniversityDbo;
 import com.example.task4.dto.StudentResponseDTO;
 import com.example.task4.dto.StudentsByUniversityDTO;
-import com.example.task4.mapper.RegistrationMapper;
 import com.example.task4.mapper.StudentMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.task4.dto.StudentResponseDTO.builder;
 import static java.time.LocalDate.now;
-import static java.util.stream.Collectors.toList;
+import static java.util.Map.Entry;
+import static java.util.stream.Collectors.*;
 
 @Service
 @RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService {
-    private final RegistrationMapper registrationMapper;
     private final StudentMapper studentMapper;
 
     @Override
     public List<StudentResponseDTO> readyForErasmus(Integer rangeOfTime) {
-        return registrationMapper.findByDate(now(), now().minusDays(rangeOfTime)).stream()
+        return studentMapper.findByDate(now(), now().minusDays(rangeOfTime))
+                .stream()
                 .map(this::getStudentForErasmus)
                 .collect(toList());
+
     }
 
     @Override
@@ -39,35 +40,33 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentsByUniversityDTO groupByUniversity() {
-        List<String> universities = studentMapper.findAll()
+        Map<String, List<StudentResponseDTO>> studentsByUniversity = studentMapper.groupByUniversity()
                 .stream()
-                .map(StudentDbo::getUniversities)
-                .flatMap(List::stream)
-                .distinct()
-                .collect(toList());
-
-        Map<String, List<StudentResponseDTO>> mappedStudents = new HashMap<>();
-        universities.forEach(u -> {
-            List<StudentResponseDTO> studentResponseDTOS = studentMapper.findByUniversity(u).stream().map(this::convertToDTO).collect(toList());
-            mappedStudents.put(u, studentResponseDTOS);
-        });
+                .collect(groupingBy(StudentUniversityDbo::getUniversity))
+                .entrySet().stream().collect(toMap(Entry::getKey,
+                        entry -> entry.getValue().stream()
+                                .map(e -> builder()
+                                        .firstname(e.getFirstname())
+                                        .student_id(e.getStudent_id())
+                                        .lastname(e.getLastname())
+                                        .build())
+                                .collect(toList())));
         return StudentsByUniversityDTO.builder()
-                .groupByUniversity(mappedStudents)
+                .groupByUniversity(studentsByUniversity)
                 .build();
     }
 
     private StudentResponseDTO convertToDTO(StudentDbo studentDbos) {
-        return StudentResponseDTO.builder()
+        return builder()
                 .age(studentDbos.getAge())
-                .id(studentDbos.getId())
+                .student_id(studentDbos.getStudent_id())
                 .lastname(studentDbos.getLastname())
                 .firstname(studentDbos.getFirstname())
                 .eligibleForErasmusScholarship(studentDbos.isEligibleForErasmusScholarship())
                 .build();
     }
 
-    private StudentResponseDTO getStudentForErasmus(RegistrationDbo registrationDbo) {
-        StudentDbo studentDbo = registrationDbo.getStudentDbo();
+    private StudentResponseDTO getStudentForErasmus(StudentDbo studentDbo) {
         studentDbo.setEligibleForErasmusScholarship(true);
         return convertToDTO(studentDbo);
     }
